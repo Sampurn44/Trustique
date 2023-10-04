@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:trustique/Visuals/start.dart';
+import 'package:trustique/Screens/auth/auth.dart';
+import 'package:trustique/Screens/start.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -10,7 +11,7 @@ final theme = ThemeData(
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
-
+late Size sz;
 void main() {
   runApp(const Intro());
 }
@@ -23,7 +24,7 @@ class Intro extends StatelessWidget {
     return MaterialApp(
       title: 'Trustique',
       theme: theme,
-      home: start(),
+      home: authtr(),
     );
   }
 }
