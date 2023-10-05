@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "876950603064",
+    "project_id": "trustique-5a5a7",
+    "storage_bucket": "trustique-5a5a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876950603064:android:6814555c548f3a52ce2dcd",
+        "android_client_info": {
+          "package_name": "com.example.trustique"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvZ7oga0qXPhJ-MfOvvdFTo7Q4gPt9Wn0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

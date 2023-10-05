@@ -1,49 +1,14 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:trustique/Screens/start.dart';
 import 'package:trustique/main.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-class authtr extends StatefulWidget {
-  const authtr({super.key});
+class splash_screen extends StatefulWidget {
+  const splash_screen({super.key});
 
   @override
-  State<authtr> createState() => _authtrState();
+  State<splash_screen> createState() => _splash_screenState();
 }
 
-class _authtrState extends State<authtr> {
-  _handlegooglebtn() {
-    _signInWithGoogle().then((user) {
-      log('\nUser: ${user.user}');
-      log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const start(),
-          ));
-    });
-  }
-
-  Future<UserCredential> _signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
+class _splash_screenState extends State<splash_screen> {
   @override
   Widget build(BuildContext context) {
     sz = MediaQuery.of(context).size;
@@ -78,9 +43,7 @@ class _authtrState extends State<authtr> {
               style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.onPrimary,
                   shape: OvalBorder(eccentricity: 0.55)),
-              onPressed: () {
-                _handlegooglebtn();
-              },
+              onPressed: () {},
               icon: Image.asset(
                 'images/search.png',
                 height: sz.height * 0.45,
