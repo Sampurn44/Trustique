@@ -47,7 +47,7 @@ class _startState extends State<start> {
           backgroundColor: Colors.brown[800],
         ),
         body: ListView.builder(
-            itemCount: 10,
+            itemCount: 1,
             physics: ClampingScrollPhysics(),
             itemBuilder: (context, index) {
               return Carduser();
