@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trustique/Screens/auth/auth.dart';
@@ -22,9 +23,13 @@ class _SplashScreenState extends State<SplashScreen> {
       SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           statusBarColor: Theme.of(context).colorScheme.secondary));
-
-      Navigator.push(
-          context, MaterialPageRoute(builder: (_) => const authtr()));
+      if (FirebaseAuth.instance.currentUser != null) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const start()));
+      } else {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (_) => const authtr()));
+      }
     });
   }
 
