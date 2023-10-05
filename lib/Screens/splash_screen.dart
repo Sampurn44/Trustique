@@ -24,6 +24,7 @@ class _SplashScreenState extends State<SplashScreen> {
       SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
           statusBarColor: Theme.of(context).colorScheme.secondary));
       if (FirebaseAuth.instance.currentUser != null) {
+        log('\nUser: ${FirebaseAuth.instance.currentUser}');
         Navigator.push(
             context, MaterialPageRoute(builder: (_) => const start()));
       } else {
