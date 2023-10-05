@@ -7,12 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:876950603064:android:6814555c548f3a52ce2dcd",
+        "mobilesdk_app_id": "1:876950603064:android:74fbfe80dc266e53ce2dcd",
         "android_client_info": {
           "package_name": "com.example.trustique"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "876950603064-63u02h6c80rtc8qlts979hruovml95et.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCvZ7oga0qXPhJ-MfOvvdFTo7Q4gPt9Wn0"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876950603064-63u02h6c80rtc8qlts979hruovml95et.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "876950603064-ajaeu8gudil97ni3ofpttbi8oig9id4h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.trustique"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,58 +1,58 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:trustique/Screens/auth/auth.dart';
+import 'package:trustique/Screens/start.dart';
 import 'package:trustique/main.dart';
 
-class splash_screen extends StatefulWidget {
-  const splash_screen({super.key});
+//splash screen
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<splash_screen> createState() => _splash_screenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _splash_screenState extends State<splash_screen> {
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+      SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+          statusBarColor: Theme.of(context).colorScheme.secondary));
+
+      Navigator.push(
+          context, MaterialPageRoute(builder: (_) => const authtr()));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    //initializing media query (for getting device screen size)
     sz = MediaQuery.of(context).size;
+
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
-        centerTitle: true,
-        elevation: 1,
-        title: Text(
-          "Welome to Trustique ",
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Positioned(
-            height: sz.height * 0.45,
-            top: sz.height * 0.05,
-            right: 0.5,
-            left: 2,
-            child: Image.asset('images/trust.png'),
-          ),
-          Positioned(
-            height: sz.height * 0.045,
-            bottom: sz.height * 0.20,
-            right: 0.5,
-            left: 2,
-            child: ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.onPrimary,
-                  shape: OvalBorder(eccentricity: 0.55)),
-              onPressed: () {},
-              icon: Image.asset(
-                'images/search.png',
-                height: sz.height * 0.45,
-              ),
-              label: Text("Sign-in using Google"),
-            ),
-          ),
-        ],
-      ),
+      backgroundColor: Theme.of(context).colorScheme.secondary,
+      //body
+      body: Stack(children: [
+        //app logo
+        Positioned(
+            top: sz.height * .15,
+            right: sz.width * .25,
+            width: sz.width * .5,
+            child: Image.asset('images/trust.png')),
+
+        //google login button
+        Positioned(
+            bottom: sz.height * .15,
+            width: sz.width,
+            child: const Text('MADE FOR THE ❤️ OF FLUTTER',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 16, color: Colors.black87, letterSpacing: .5))),
+      ]),
     );
   }
 }
