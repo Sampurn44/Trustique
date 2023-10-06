@@ -4,6 +4,7 @@ import 'package:trustique/models/chat_user.dart';
 
 class APIs {
   // for authentication
+  static late ChatUser me;
   static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
   static Future<bool> userExist() async {
@@ -12,6 +13,20 @@ class APIs {
             .doc(auth.currentUser!.uid)
             .get())
         .exists;
+  }
+
+  static Future<void> getSelfInfo() async {
+    return (await firestore
+        .collection('users')
+        .doc(auth.currentUser!.uid)
+        .get()
+        .then((user) {
+      if (user.exists) {
+        me = ChatUser.fromJson(user.data()!);
+      } else {
+        userCreate().then((value) => getSelfInfo());
+      }
+    }));
   }
 
   static Future<void> userCreate() async {
@@ -30,6 +45,13 @@ class APIs {
         .collection('users')
         .doc(auth.currentUser!.uid)
         .set(chatuser.toJson());
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getallusers() {
+    return firestore
+        .collection('users')
+        .where('id', isNotEqualTo: auth.currentUser!.uid)
+        .snapshots();
   }
 //const Themeof =
 //Theme.of(context).colorScheme.secondary;
