@@ -1,8 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:trustique/Screens/start.dart';
+import 'package:trustique/api/api.dart';
 import 'package:trustique/main.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,16 +20,29 @@ class _authtrState extends State<authtr> {
     showDialog(
         context: context,
         builder: (_) => const Center(child: CircularProgressIndicator()));
-    _signInWithGoogle().then((user) {
+    _signInWithGoogle().then((user) async {
       Navigator.pop(context);
       if (user != null) {
-        // log('\nUser: ${user.user}');
-        // log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
-        Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const start(),
-            ));
+        log('\nUser: ${user.user}');
+        log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+        if ((await APIs.userExist())) {
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const start(),
+              ));
+        } else {
+          await APIs.userCreate().then(
+            (value) {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => start(),
+                ),
+              );
+            },
+          );
+        }
       }
     });
   }
@@ -53,9 +67,9 @@ class _authtrState extends State<authtr> {
       return await FirebaseAuth.instance.signInWithCredential(credential);
     } catch (e) {
       log('\n_signInWithGoogle: $e ');
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text(
-              'Something Went Wrong!, Check your internet connection')));
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(snackBar);
       return null;
     }
   }
@@ -112,3 +126,22 @@ class _authtrState extends State<authtr> {
     );
   }
 }
+
+final snackBar = SnackBar(
+  /// need to set following properties for best effect of awesome_snackbar_content
+  elevation: 0,
+  behavior: SnackBarBehavior.floating,
+  backgroundColor: Colors.transparent,
+  content: AwesomeSnackbarContent(
+    title: 'On Snap!',
+    message:
+        'This is an example error message that will be shown in the body of snackbar!',
+
+    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+    contentType: ContentType.failure,
+  ),
+);
+
+                // ScaffoldMessenger.of(context)
+                //   ..hideCurrentSnackBar()
+                //   ..showSnackBar(snackBar);
