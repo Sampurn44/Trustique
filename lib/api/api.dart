@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:trustique/models/chat_user.dart';
 
 class APIs {
@@ -7,6 +8,7 @@ class APIs {
   static late ChatUser me;
   static FirebaseAuth auth = FirebaseAuth.instance;
   static FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static FirebaseStorage firestorage = FirebaseStorage.instance;
   static Future<bool> userExist() async {
     return (await firestore
             .collection('users')
