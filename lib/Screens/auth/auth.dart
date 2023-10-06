@@ -22,8 +22,8 @@ class _authtrState extends State<authtr> {
     _signInWithGoogle().then((user) {
       Navigator.pop(context);
       if (user != null) {
-        log('\nUser: ${user.user}');
-        log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
+        // log('\nUser: ${user.user}');
+        // log('\nUserAdditionalInfo: ${user.additionalUserInfo}');
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
