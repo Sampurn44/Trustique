@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trustique/Screens/chatscreen.dart';
 import 'package:trustique/main.dart';
 import 'package:trustique/models/chat_user.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -18,6 +20,14 @@ class _CarduserState extends State<Carduser> {
         color: Theme.of(context).colorScheme.secondary,
         elevation: 10,
         child: InkWell(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => ChatScreen(
+                          user: widget.user,
+                        )));
+          },
           child: ListTile(
               shape: StadiumBorder(side: BorderSide(width: 2)),
               leading: InkWell(
