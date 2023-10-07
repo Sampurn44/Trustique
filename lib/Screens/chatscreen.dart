@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -28,7 +31,7 @@ class _chatscreenState extends State<ChatScreen> {
           children: [
             Expanded(
               child: StreamBuilder(
-                  stream: APIs.getallusers(),
+                  stream: APIs.getallmessages(),
                   builder: (context, snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
@@ -38,7 +41,8 @@ class _chatscreenState extends State<ChatScreen> {
                       //if some or all data is loaded then show it
                       case ConnectionState.active:
                       case ConnectionState.done:
-                        // final data = snapshot.data?.docs;
+                        final data = snapshot.data?.docs;
+                        log('Data: ${jsonEncode(data![0].data())}');
                         // _list = data!
                         //     .map((e) => ChatUser.fromJson(e.data()))
                         //     .toList();

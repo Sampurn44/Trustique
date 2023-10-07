@@ -55,6 +55,10 @@ class APIs {
         .where('id', isNotEqualTo: auth.currentUser!.uid)
         .snapshots();
   }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getallmessages() {
+    return firestore.collection('message').snapshots();
+  }
 //const Themeof =
 //Theme.of(context).colorScheme.secondary;
 }
