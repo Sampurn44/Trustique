@@ -98,13 +98,8 @@ We have exciting plans for Trustique's future. Potential enhancements include:
 
 Stay tuned for updates and consider contributing to make these enhancements a reality!
 
-## Contributing
 
-We warmly welcome contributions from the community. If you'd like to contribute to this project, please follow our [contributing guidelines](CONTRIBUTING.md).
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
