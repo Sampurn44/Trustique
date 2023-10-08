@@ -1,16 +1,57 @@
-# trustique
+# Talkative - Flutter Chat App README
 
-A new Flutter project.
+![Talkative Logo](https://your-repo-url.com/logo.png)
 
+## Table of Contents
+
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Usage](#usage)
+- [Firebase Configuration](#firebase-configuration)
+- [App Customization](#app-customization)
+- [Future Enhancements](#future-enhancements)
+- [Contributing](#contributing)
+- [License](#license)
+
+<a name="features"></a>
+## Features
+
+1. **User Authentication**
+   - **Google Sign-In:** Users can easily authenticate using their Google accounts.
+   - **Add User:** Users can create and manage their profiles.
+
+2. **Real-Time Messaging**
+   - Enjoy real-time chat functionality powered by Firebase Firestore.
+
+3. **Location Sharing**
+   - **Send Current Location:** Share your current location as a text URL.
+   - **Future Enhancement:** The text URL can be turned into a Google Maps screenshot if an API becomes available in the future.
+
+4. **User Search**
+   - **Search in Current Users:** Quickly find and start conversations with other users.
+
+5. **Unread Message Indicator**
+   - See the unread message count for each conversation.
+
+6. **Message Status**
+   - Double ticks indicate when a message has been seen by the recipient.
+
+<a name="getting-started"></a>
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Prerequisites
 
-A few resources to get you started if this is your first Flutter project:
+Before you start, make sure you have the following prerequisites installed:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [Flutter](https://flutter.dev/docs/get-started/install)
+- [Firebase](https://firebase.google.com/docs/flutter/setup)
+- [Google Cloud Console](https://console.cloud.google.com/) project for setting up Google Sign-In.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Installation
+
+1. Clone this repository to your local machine:
+
+   ```bash
+   git clone https://github.com/your-username/talkative-app.git
