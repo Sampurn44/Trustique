@@ -54,4 +54,60 @@ Before you start, make sure you have the following prerequisites installed:
 1. Clone this repository to your local machine:
 
    ```bash
-   git clone https://github.com/your-username/talkative-app.git
+   git clone https://github.com/Sampurn44/trustique.git
+
+2. Navigate to the project directory:
+
+   ```bash
+    cd talkative-app
+3. Install the required Flutter packages:
+   ```bash
+   flutter pub get
+
+## Usage
+
+1. **Firebase Configuration**
+
+   - Create a new Firebase project on the Firebase Console.
+   - Add your Android and iOS apps to the Firebase project and follow the setup instructions provided by Firebase.
+   - Download the `google-services.json` file for Android and `GoogleService-Info.plist` for iOS from the Firebase Console, and place them in their respective directories (`android/app` and `ios/Runner`).
+   - Enable Google Sign-In in your Firebase project.
+
+2. **Run the App**
+
+   - Use the following command to run the app on your emulator or physical device:
+
+     ```bash
+     flutter run
+     ```
+
+   - Explore the app's features and functionalities.
+
+## App Customization
+
+You can easily customize Talkative to suit your specific needs. Modify the Flutter code and Firebase configurations as required. You can also change the app's appearance, add new features, or integrate additional APIs.
+
+## Future Enhancements
+
+We have exciting plans for Talkative's future. Potential enhancements include:
+
+- Integration of an API to convert location text URLs into Google Maps screenshots.
+- Support for additional authentication methods.
+- Enhanced chat features, including multimedia sharing.
+- Improved user interface and user experience.
+
+Stay tuned for updates and consider contributing to make these enhancements a reality!
+
+## Contributing
+
+We warmly welcome contributions from the community. If you'd like to contribute to this project, please follow our [contributing guidelines](CONTRIBUTING.md).
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+Thank you for choosing Talkative - the Flutter Chat App! We hope it proves invaluable for your development projects. Should you have any questions or suggestions, please feel free to open an issue on GitHub.
+
+Happy chatting and coding! 😄🚀
