@@ -1,6 +1,6 @@
 # Trustique - Flutter Chat App
 
-![Trustique Logo]((https://github.com/Sampurn44/trustique/blob/master/images/trust.png))
+![Trustique Logo](https://github.com/Sampurn44/trustique/blob/master/images/trust.png)
 
 ## Table of Contents
 
