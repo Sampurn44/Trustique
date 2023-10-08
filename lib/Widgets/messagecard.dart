@@ -5,6 +5,7 @@ import 'package:trustique/helper/date_util.dart';
 import 'package:trustique/main.dart';
 import 'package:trustique/models/message.dart';
 import 'package:trustique/api/api.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MessageCard extends StatefulWidget {
   const MessageCard({super.key, required this.message});
@@ -117,41 +118,52 @@ class _MessageCardState extends State<MessageCard> {
         //message content
         Flexible(
           child: Container(
-            padding: EdgeInsets.all(widget.message.type == Type.image
-                ? sz.width * .03
-                : sz.width * .04),
-            margin: EdgeInsets.symmetric(
-                horizontal: sz.width * .04, vertical: sz.height * .01),
-            decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 218, 255, 176),
-                border: Border.all(color: Colors.lightGreen),
-                //making borders curved
-                borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(30),
-                    topRight: Radius.circular(30),
-                    bottomLeft: Radius.circular(30))),
-            child: widget.message.type == Type.text
-                ?
-                //show text
-                Text(
-                    widget.message.msg,
-                    style: const TextStyle(fontSize: 15, color: Colors.black87),
-                  )
-                :
-                //show image
-                ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: CachedNetworkImage(
-                      imageUrl: widget.message.msg,
-                      placeholder: (context, url) => const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.image, size: 70),
-                    ),
-                  ),
-          ),
+              padding: EdgeInsets.all(widget.message.type == Type.image
+                  ? sz.width * .03
+                  : sz.width * .04),
+              margin: EdgeInsets.symmetric(
+                  horizontal: sz.width * .04, vertical: sz.height * .01),
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 218, 255, 176),
+                  border: Border.all(color: Colors.lightGreen),
+                  //making borders curved
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
+                      bottomLeft: Radius.circular(30))),
+              child: widget.message.type == Type.text
+                  ?
+                  //show text
+                  Text(
+                      widget.message.msg,
+                      style:
+                          const TextStyle(fontSize: 15, color: Colors.black87),
+                    )
+                  : widget.message.type == Type.image
+                      ?
+                      //show image
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: CachedNetworkImage(
+                            imageUrl: widget.message.msg,
+                            placeholder: (context, url) => const Padding(
+                              padding: EdgeInsets.all(8.0),
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.image, size: 70),
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () async {
+                            await launchUrl(Uri.parse("${widget.message.msg}"));
+                          },
+                          child: Text(
+                            widget.message.msg,
+                            style: const TextStyle(
+                                fontSize: 15, color: Colors.black87),
+                          ),
+                        )),
         ),
       ],
     );

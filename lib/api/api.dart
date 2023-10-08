@@ -64,10 +64,17 @@ class APIs {
         .set(chatuser.toJson());
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getallusers() {
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getallusers(
+      List<String> userIds) {
+    log('\nUserIds: $userIds');
+
     return firestore
         .collection('users')
-        .where('id', isNotEqualTo: auth.currentUser!.uid)
+        .where('id',
+            whereIn: userIds.isEmpty
+                ? ['']
+                : userIds) //because empty list throws an error
+        // .where('id', isNotEqualTo: user.uid)
         .snapshots();
   }
 
@@ -166,6 +173,24 @@ class APIs {
 
       return false;
     }
+  }
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getMyUsersId() {
+    return firestore
+        .collection('users')
+        .doc(user.uid)
+        .collection('my_users')
+        .snapshots();
+  }
+
+  static Future<void> sendFirstMessage(
+      ChatUser chatUser, String msg, Type type) async {
+    await firestore
+        .collection('users')
+        .doc(chatUser.id)
+        .collection('my_users')
+        .doc(user.uid)
+        .set({}).then((value) => sendMessage(chatUser, msg, type));
   }
 
 //const Themeof =

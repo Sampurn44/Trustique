@@ -35,4 +35,4 @@ class Message {
   }
 }
 
-enum Type { text, image }
+enum Type { text, image, link }

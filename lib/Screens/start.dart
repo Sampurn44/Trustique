@@ -110,9 +110,12 @@ class _startState extends State<start> {
               backgroundColor: Colors.brown[800],
             ),
             body: StreamBuilder(
-                stream: APIs.getallusers(),
+                stream: APIs.getMyUsersId(),
+
+                //get id of only known users
                 builder: (context, snapshot) {
                   switch (snapshot.connectionState) {
+                    //if data is loading
                     case ConnectionState.waiting:
                     case ConnectionState.none:
                       return const Center(child: CircularProgressIndicator());
@@ -120,42 +123,57 @@ class _startState extends State<start> {
                     //if some or all data is loaded then show it
                     case ConnectionState.active:
                     case ConnectionState.done:
-                      final data = snapshot.data?.docs;
-                      _list = data!
-                          .map((e) => ChatUser.fromJson(e.data()))
-                          .toList();
-                      if (_list.isNotEmpty) {
-                        return ListView.builder(
-                            itemCount: _isSearching
-                                ? _searchlist.length
-                                : _list.length,
-                            physics: ClampingScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              // return Text('Name:${list[index]}');
-                              return Carduser(
-                                user: _isSearching
-                                    ? _searchlist[index]
-                                    : _list[index],
-                              );
-                            });
-                      } else {
-                        return SizedBox(
-                          child: Center(
-                            child: TextLiquidFill(
-                              text: 'No user added yet',
-                              waveDuration: Duration(seconds: 5),
-                              waveColor: Colors.blue,
-                              boxBackgroundColor:
-                                  Theme.of(context).primaryColor,
-                              textStyle: TextStyle(
-                                fontSize: 30.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        );
-                        ;
-                      }
+                      return StreamBuilder(
+                          stream: APIs.getallusers(
+                              snapshot.data?.docs.map((e) => e.id).toList() ??
+                                  []),
+                          builder: (context, snapshot) {
+                            switch (snapshot.connectionState) {
+                              case ConnectionState.waiting:
+                              case ConnectionState.none:
+                                return const Center(
+                                    child: CircularProgressIndicator());
+
+                              //if some or all data is loaded then show it
+                              case ConnectionState.active:
+                              case ConnectionState.done:
+                                final data = snapshot.data?.docs;
+                                _list = data!
+                                    .map((e) => ChatUser.fromJson(e.data()))
+                                    .toList();
+                                if (_list.isNotEmpty) {
+                                  return ListView.builder(
+                                      itemCount: _isSearching
+                                          ? _searchlist.length
+                                          : _list.length,
+                                      physics: ClampingScrollPhysics(),
+                                      itemBuilder: (context, index) {
+                                        // return Text('Name:${list[index]}');
+                                        return Carduser(
+                                          user: _isSearching
+                                              ? _searchlist[index]
+                                              : _list[index],
+                                        );
+                                      });
+                                } else {
+                                  return SizedBox(
+                                    child: Center(
+                                      child: TextLiquidFill(
+                                        text: 'No user added yet',
+                                        waveDuration: Duration(seconds: 5),
+                                        waveColor: Colors.blue,
+                                        boxBackgroundColor:
+                                            Theme.of(context).primaryColor,
+                                        textStyle: TextStyle(
+                                          fontSize: 30.0,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                }
+                            }
+                          });
                   }
                 })),
       ),
@@ -220,6 +238,10 @@ class _startState extends State<start> {
                             ScaffoldMessenger.of(context)
                               ..hideCurrentSnackBar()
                               ..showSnackBar(snackBar1);
+                          } else {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar2);
                           }
                         });
                       }
@@ -241,6 +263,19 @@ final snackBar1 = SnackBar(
   content: AwesomeSnackbarContent(
     title: 'User not found!',
     message: 'The user does not exist!',
+
+    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+    contentType: ContentType.failure,
+  ),
+);
+final snackBar2 = SnackBar(
+  /// need to set following properties for best effect of awesome_snackbar_content
+  elevation: 0,
+  behavior: SnackBarBehavior.floating,
+  backgroundColor: Colors.transparent,
+  content: AwesomeSnackbarContent(
+    title: 'Congratulations',
+    message: 'User added!',
 
     /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
     contentType: ContentType.failure,

@@ -7,11 +7,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:location/location.dart';
 import 'package:trustique/Widgets/messagecard.dart';
 import 'package:trustique/main.dart';
 import 'package:trustique/models/chat_user.dart';
 import 'package:trustique/api/api.dart';
 import 'package:trustique/models/message.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -24,6 +26,53 @@ class ChatScreen extends StatefulWidget {
 
 class _chatscreenState extends State<ChatScreen> {
   List<Message> _list = [];
+  Location? _pickedLocation;
+  var _isGettingLocation = false;
+  void _getcurrentlocation() async {
+    Location location = Location();
+
+    bool serviceEnabled;
+    PermissionStatus permissionGranted;
+    LocationData locationData;
+
+    serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    permissionGranted = await location.hasPermission();
+    if (permissionGranted == PermissionStatus.denied) {
+      permissionGranted = await location.requestPermission();
+      if (permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    setState(() {
+      _isGettingLocation = true;
+    });
+
+    locationData = await location.getLocation();
+
+    setState(() {
+      _isGettingLocation = false;
+    });
+    if (_list.isEmpty) {
+      //on first message (add user to my_user collection of chat user)
+      APIs.sendFirstMessage(
+          widget.user,
+          'https://www.google.com/maps/@${locationData.longitude},${locationData.latitude}',
+          Type.link);
+    } else {
+      //simply send message
+      APIs.sendMessage(
+          widget.user,
+          'https://www.google.com/maps/@${locationData.longitude},${locationData.latitude}',
+          Type.link);
+    }
+  }
 
   final _textController = TextEditingController();
   bool _isUploading = false;
@@ -212,7 +261,7 @@ class _chatscreenState extends State<ChatScreen> {
                         Icons.image,
                       )),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: _getcurrentlocation,
                       icon: Icon(
                         Icons.location_on,
                       )),
@@ -223,8 +272,15 @@ class _chatscreenState extends State<ChatScreen> {
           MaterialButton(
             onPressed: () {
               if (_textController.text.isNotEmpty) {
-                APIs.sendMessage(widget.user, _textController.text, Type.text);
-
+                if (_list.isEmpty) {
+                  //on first message (add user to my_user collection of chat user)
+                  APIs.sendFirstMessage(
+                      widget.user, _textController.text, Type.text);
+                } else {
+                  //simply send message
+                  APIs.sendMessage(
+                      widget.user, _textController.text, Type.text);
+                }
                 _textController.text = '';
               }
             },
