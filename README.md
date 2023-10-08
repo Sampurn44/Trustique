@@ -3,7 +3,7 @@
 ![Trustique Logo](https://github.com/Sampurn44/trustique/blob/master/images/trust.png)
 
 
-Link to [apk](https://drive.google.com/drive/folders/16KW_ZSsIiIlD67vW_7wLyZ3ZtTj7AElA?usp=sharing)
+
 ## Table of Contents
 
 - [Features](#features)
@@ -65,7 +65,8 @@ Before you start, make sure you have the following prerequisites installed:
 3. Install the required Flutter packages:
    ```bash
    flutter pub get
-
+  **OR**
+**Download the apk from here [apk](https://drive.google.com/drive/folders/16KW_ZSsIiIlD67vW_7wLyZ3ZtTj7AElA?usp=sharing)**
 ## Usage
 
 1. **Firebase Configuration**
