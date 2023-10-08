@@ -1,13 +1,17 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'dart:io';
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:trustique/Widgets/messagecard.dart';
 import 'package:trustique/main.dart';
 import 'package:trustique/models/chat_user.dart';
 import 'package:trustique/api/api.dart';
+import 'package:trustique/models/message.dart';
 
 class ChatScreen extends StatefulWidget {
   final ChatUser user;
@@ -19,6 +23,11 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _chatscreenState extends State<ChatScreen> {
+  List<Message> _list = [];
+
+  final _textController = TextEditingController();
+  bool _ishowingemojis = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,59 +35,74 @@ class _chatscreenState extends State<ChatScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: _appbar(),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: StreamBuilder(
-                  stream: APIs.getallmessages(),
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                      case ConnectionState.none:
-                      //return const Center(child: CircularProgressIndicator());
+        backgroundColor: Theme.of(context).colorScheme.background,
+        body: Column(children: [
+          Expanded(
+            child: StreamBuilder(
+                stream: APIs.getallmessages(widget.user),
+                builder: (context, snapshot) {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.waiting:
+                    case ConnectionState.none:
+                      return const Center(child: CircularProgressIndicator());
 
-                      //if some or all data is loaded then show it
-                      case ConnectionState.active:
-                      case ConnectionState.done:
-                        final data = snapshot.data?.docs;
-                        log('Data: ${jsonEncode(data![0].data())}');
-                        // _list = data!
-                        //     .map((e) => ChatUser.fromJson(e.data()))
-                        //     .toList();
-                        final _list = [];
-                        if (_list.isNotEmpty) {
-                          return ListView.builder(
-                              itemCount: _list.length,
-                              physics: ClampingScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                return Text('Message:${_list[index]}');
-                              });
-                        } else {
-                          return SizedBox(
-                            child: Center(
-                              child: TextLiquidFill(
-                                text: 'Say Hiii!!! 👋🏻',
-                                waveDuration: Duration(seconds: 5),
-                                waveColor:
-                                    const Color.fromARGB(255, 255, 255, 255),
-                                boxBackgroundColor:
-                                    Theme.of(context).primaryColor,
-                                textStyle: TextStyle(
-                                  fontSize: 30.0,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                    //if some or all data is loaded then show it
+                    case ConnectionState.active:
+                    case ConnectionState.done:
+                      final data = snapshot.data?.docs;
+                      //log('Data: ${jsonEncode(data![0].data())}');
+                      _list = data
+                              ?.map((e) => Message.fromJson(e.data()))
+                              .toList() ??
+                          [];
+                      //final _list = ["hi", "hello"];
+                      // _list.clear();
+                      // _list.add(Message(
+                      //     msg: "Hello ji namaste",
+                      //     toid: APIs.user.uid,
+                      //     read: 'asdsa',
+                      //     type: Type.text,
+                      //     fromid: '',
+                      //     sent: 'asdsa'));
+                      // _list.add(Message(
+                      //     msg: "Hello",
+                      //     toid: "dsadsa",
+                      //     read: 'qewqwe',
+                      //     type: Type.text,
+                      //     fromid: APIs.user.uid,
+                      //     sent: '12:00 A.M.'));
+                      if (_list.isNotEmpty) {
+                        return ListView.builder(
+                            itemCount: _list.length,
+                            physics: ClampingScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return MessageCard(message: _list[index]);
+                            });
+                      } else {
+                        return SizedBox(
+                          child: Center(
+                            child: TextLiquidFill(
+                              text: 'Say Hiii!!! 👋🏻',
+                              waveDuration: Duration(seconds: 3),
+                              waveColor:
+                                  const Color.fromARGB(255, 255, 255, 255),
+                              boxBackgroundColor:
+                                  Theme.of(context).primaryColor,
+                              textStyle: TextStyle(
+                                fontSize: 30.0,
+                                fontWeight: FontWeight.bold,
                               ),
                             ),
-                          );
-                          ;
-                        }
-                    }
-                  }),
-            ),
-            _chatInput()
-          ],
-        ),
+                          ),
+                        );
+                      }
+                  }
+                }),
+          ),
+          _chatInput(),
+        ]),
       ),
     );
   }
@@ -90,7 +114,10 @@ class _chatscreenState extends State<ChatScreen> {
         children: [
           IconButton(
             onPressed: () => {Navigator.pop(context)},
-            icon: Icon(CupertinoIcons.back),
+            icon: Icon(
+              CupertinoIcons.back,
+              color: Colors.black,
+            ),
           ),
           ClipRRect(
             borderRadius: BorderRadius.circular(sz.height * .03),
@@ -121,7 +148,7 @@ class _chatscreenState extends State<ChatScreen> {
               Text(
                 widget.user.isOnline.toString(),
                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: Colors.white54,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                     ),
               ),
             ],
@@ -130,29 +157,25 @@ class _chatscreenState extends State<ChatScreen> {
       ),
     );
   }
-}
 
-Widget _chatInput() {
-  return Padding(
-    padding: EdgeInsets.symmetric(
-        vertical: sz.height * 0.01, horizontal: sz.width * 0.025),
-    child: Row(
-      children: [
-        Expanded(
-          child: Card(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-            child: Row(
-              children: [
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.location_on,
-                    )),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
+  Widget _chatInput() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          vertical: sz.height * 0.01, horizontal: sz.width * 0.025),
+      child: Row(
+        children: [
+          Expanded(
+            child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15)),
+              child: Row(
+                children: [
+                  Expanded(
                     child: TextField(
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                      controller: _textController,
                       keyboardType: TextInputType.multiline,
                       maxLines: null,
                       decoration: InputDecoration(
@@ -163,34 +186,40 @@ Widget _chatInput() {
                       ),
                     ),
                   ),
-                ),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.image,
-                    )),
-                IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.camera,
-                    )),
-              ],
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.image,
+                      )),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.location_on,
+                      )),
+                ],
+              ),
             ),
           ),
-        ),
-        MaterialButton(
-          onPressed: () {},
-          padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
-          shape: const CircleBorder(),
-          color: Colors.black,
-          minWidth: 1,
-          child: const Icon(
-            CupertinoIcons.paperplane,
-            size: 20,
-            color: Colors.white,
-          ),
-        )
-      ],
-    ),
-  );
+          MaterialButton(
+            onPressed: () {
+              if (_textController.text.isNotEmpty) {
+                APIs.sendMessage(widget.user, _textController.text, Type.text);
+
+                _textController.text = '';
+              }
+            },
+            padding: EdgeInsets.only(top: 10, bottom: 10, right: 10, left: 10),
+            shape: const CircleBorder(),
+            color: Colors.black,
+            minWidth: 1,
+            child: const Icon(
+              CupertinoIcons.paperplane,
+              size: 20,
+              color: Colors.white,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
