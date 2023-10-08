@@ -164,11 +164,9 @@ class _startState extends State<start> {
                                       child: TextLiquidFill(
                                         text: 'No user added yet',
                                         waveDuration: Duration(seconds: 5),
-                                        waveColor:
-                                            const Color.fromARGB(255, 0, 0, 0),
-                                        boxBackgroundColor: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimaryContainer,
+                                        waveColor: Color.fromARGB(255, 0, 0, 0),
+                                        boxBackgroundColor:
+                                            Color.fromARGB(255, 207, 10, 10),
                                         textStyle: TextStyle(
                                           fontSize: 30.0,
                                           fontWeight: FontWeight.bold,
