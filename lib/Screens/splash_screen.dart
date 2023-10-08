@@ -40,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
     sz = MediaQuery.of(context).size;
 
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.secondary,
+      backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
       //body
       body: Stack(children: [
         //app logo
@@ -57,7 +57,9 @@ class _SplashScreenState extends State<SplashScreen> {
             child: const Text('MADE FOR THE ❤️ OF FLUTTER',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    fontSize: 16, color: Colors.black87, letterSpacing: .5))),
+                    fontSize: 16,
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    letterSpacing: .5))),
       ]),
     );
   }

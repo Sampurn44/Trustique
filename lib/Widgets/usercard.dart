@@ -21,7 +21,7 @@ class _CarduserState extends State<Carduser> {
   @override
   Widget build(BuildContext context) {
     return Card(
-        color: Theme.of(context).colorScheme.secondary,
+        color: Theme.of(context).colorScheme.onInverseSurface,
         elevation: 10,
         child: InkWell(
           onTap: () {
@@ -42,7 +42,7 @@ class _CarduserState extends State<Carduser> {
                 _message = list[0];
               }
               return ListTile(
-                shape: StadiumBorder(side: BorderSide(width: 2)),
+                shape: BeveledRectangleBorder(side: BorderSide(width: 1)),
                 leading: InkWell(
                   // onTap: () {
                   //   showDialog(
@@ -80,7 +80,9 @@ class _CarduserState extends State<Carduser> {
                   _message != null
                       ? _message!.type == Type.image
                           ? 'Image📸'
-                          : _message!.msg
+                          : _message!.type == Type.link
+                              ? 'Location📍'
+                              : _message!.msg
                       : '',
                   maxLines: 1,
                   style: TextStyle(

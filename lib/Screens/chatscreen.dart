@@ -84,7 +84,7 @@ class _chatscreenState extends State<ChatScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           flexibleSpace: _appbar(),
-          backgroundColor: Theme.of(context).colorScheme.secondary,
+          backgroundColor: Theme.of(context).colorScheme.primary,
         ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Column(children: [
@@ -124,8 +124,9 @@ class _chatscreenState extends State<ChatScreen> {
                       //     sent: '12:00 A.M.'));
                       if (_list.isNotEmpty) {
                         return ListView.builder(
+                            // padding: EdgeInsets.only(left: 1),
                             itemCount: _list.length,
-                            physics: ClampingScrollPhysics(),
+                            physics: BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
                               return MessageCard(message: _list[index]);
                             });
@@ -199,12 +200,6 @@ class _chatscreenState extends State<ChatScreen> {
               ),
               SizedBox(
                 height: 3,
-              ),
-              Text(
-                widget.user.isOnline.toString(),
-                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
               ),
             ],
           ),

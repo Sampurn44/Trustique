@@ -44,10 +44,13 @@ class _startState extends State<start> {
         },
         child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.brown[800],
+              backgroundColor: Theme.of(context).colorScheme.primary,
               centerTitle: true,
               elevation: 1,
-              leading: const Icon(Icons.home_filled),
+              leading: const Icon(
+                Icons.home_filled,
+                color: Colors.white,
+              ),
               title: _isSearching
                   ? TextField(
                       decoration:
@@ -106,8 +109,8 @@ class _startState extends State<start> {
               onPressed: () {
                 _addChatUserDialog();
               },
-              child: const Icon(Icons.add_circle_outline),
-              backgroundColor: Colors.brown[800],
+              child: const Icon(Icons.add_circle_outline, color: Colors.white),
+              backgroundColor: Theme.of(context).colorScheme.primary,
             ),
             body: StreamBuilder(
                 stream: APIs.getMyUsersId(),
@@ -161,9 +164,11 @@ class _startState extends State<start> {
                                       child: TextLiquidFill(
                                         text: 'No user added yet',
                                         waveDuration: Duration(seconds: 5),
-                                        waveColor: Colors.blue,
-                                        boxBackgroundColor:
-                                            Theme.of(context).primaryColor,
+                                        waveColor:
+                                            const Color.fromARGB(255, 0, 0, 0),
+                                        boxBackgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimaryContainer,
                                         textStyle: TextStyle(
                                           fontSize: 30.0,
                                           fontWeight: FontWeight.bold,
@@ -274,6 +279,7 @@ final snackBar2 = SnackBar(
   behavior: SnackBarBehavior.floating,
   backgroundColor: Colors.transparent,
   content: AwesomeSnackbarContent(
+    color: Color.fromARGB(255, 47, 0, 255),
     title: 'Congratulations',
     message: 'User added!',
 

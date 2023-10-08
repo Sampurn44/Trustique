@@ -79,7 +79,7 @@ class _authtrState extends State<authtr> {
     sz = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.secondary,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         centerTitle: true,
         elevation: 1,
         title: Text(
@@ -106,8 +106,29 @@ class _authtrState extends State<authtr> {
             left: 2,
             child: ElevatedButton.icon(
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  shape: StadiumBorder(side: BorderSide.none)),
+                // backgroundColor: Theme.of(context).colorScheme.primary,
+                shape: StadiumBorder(
+                    side: BorderSide(
+                        width: 2.0,
+                        color: Theme.of(context).colorScheme.secondary)),
+                // shadowColor: const Color.fromARGB(255, 0, 0, 0),
+                // elevation: 15
+              ),
+
+              // StadiumBorder(
+              //   //<-- 3. SEE HERE
+              //   side: BorderSide(
+              //     color: Colors.greenAccent,
+              //     width: 2.0,
+              //   ),
+              // ),
+              // child: Container(
+              //   padding: EdgeInsets.all(16),
+              //   child: Text(
+              //     'Product Name',
+              //     style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+              //   ),
+              // ),
               onPressed: () {
                 _handlegooglebtn();
               },
@@ -117,7 +138,7 @@ class _authtrState extends State<authtr> {
               ),
               label: Text(
                 "Sign-in using Google",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Color.fromARGB(255, 8, 25, 255)),
               ),
             ),
           ),

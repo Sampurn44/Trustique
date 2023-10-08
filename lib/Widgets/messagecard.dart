@@ -37,7 +37,7 @@ class _MessageCardState extends State<MessageCard> {
                 ? sz.width * .03
                 : sz.width * .04),
             margin: EdgeInsets.symmetric(
-                horizontal: sz.width * .04, vertical: sz.height * .01),
+                horizontal: sz.width * .004, vertical: sz.height * .001),
             decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 221, 245, 255),
                 border: Border.all(color: Colors.lightBlue),
@@ -94,14 +94,14 @@ class _MessageCardState extends State<MessageCard> {
         Row(
           children: [
             //for adding some space
-            SizedBox(width: sz.width * .04),
+            //SizedBox(width: sz.width * .001),
 
             //double tick blue icon for message read
             if (widget.message.read.isNotEmpty)
               const Icon(Icons.done_all_rounded, color: Colors.blue, size: 20),
 
             //for adding some space
-            const SizedBox(width: 2),
+            // const SizedBox(width: 2),
 
             //sent time
             Text(
@@ -110,7 +110,7 @@ class _MessageCardState extends State<MessageCard> {
                 time: widget.message.sent,
               ),
               style: const TextStyle(
-                  fontSize: 13, color: Color.fromARGB(255, 255, 255, 255)),
+                  fontSize: 13, color: Color.fromARGB(143, 0, 26, 255)),
             ),
           ],
         ),
@@ -122,10 +122,10 @@ class _MessageCardState extends State<MessageCard> {
                   ? sz.width * .03
                   : sz.width * .04),
               margin: EdgeInsets.symmetric(
-                  horizontal: sz.width * .04, vertical: sz.height * .01),
+                  horizontal: sz.width * .004, vertical: sz.height * .001),
               decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 218, 255, 176),
-                  border: Border.all(color: Colors.lightGreen),
+                  color: Colors.blue.shade900,
+                  border: Border.all(color: Colors.blue.shade50),
                   //making borders curved
                   borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(30),
@@ -136,8 +136,9 @@ class _MessageCardState extends State<MessageCard> {
                   //show text
                   Text(
                       widget.message.msg,
-                      style:
-                          const TextStyle(fontSize: 15, color: Colors.black87),
+                      style: const TextStyle(
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     )
                   : widget.message.type == Type.image
                       ?

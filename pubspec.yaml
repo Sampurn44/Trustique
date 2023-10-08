@@ -47,7 +47,6 @@ dependencies:
   image_picker: ^1.0.4
   location: ^5.0.3
   url_launcher: 6.1.14
-  fluttertoast: ^8.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -10,8 +10,8 @@ import 'package:trustique/firebase_options.dart';
 final theme = ThemeData(
   useMaterial3: true,
   colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 238, 131, 9),
+    brightness: Brightness.light,
+    seedColor: Color.fromARGB(255, 34, 119, 255),
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
