@@ -1,6 +1,6 @@
-# Talkative - Flutter Chat App README
+# Trustique - Flutter Chat App
 
-![Talkative Logo](https://your-repo-url.com/logo.png)
+![Trustique Logo](https://your-repo-url.com/logo.png)
 
 ## Table of Contents
 
@@ -59,7 +59,7 @@ Before you start, make sure you have the following prerequisites installed:
 2. Navigate to the project directory:
 
    ```bash
-    cd talkative-app
+    cd trustique
 3. Install the required Flutter packages:
    ```bash
    flutter pub get
@@ -85,11 +85,11 @@ Before you start, make sure you have the following prerequisites installed:
 
 ## App Customization
 
-You can easily customize Talkative to suit your specific needs. Modify the Flutter code and Firebase configurations as required. You can also change the app's appearance, add new features, or integrate additional APIs.
+You can easily customize Trustique to suit your specific needs. Modify the Flutter code and Firebase configurations as required. You can also change the app's appearance, add new features, or integrate additional APIs.
 
 ## Future Enhancements
 
-We have exciting plans for Talkative's future. Potential enhancements include:
+We have exciting plans for Trustique's future. Potential enhancements include:
 
 - Integration of an API to convert location text URLs into Google Maps screenshots.
 - Support for additional authentication methods.
@@ -108,6 +108,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Thank you for choosing Talkative - the Flutter Chat App! We hope it proves invaluable for your development projects. Should you have any questions or suggestions, please feel free to open an issue on GitHub.
+Thank you for choosing Trustique - the Flutter Chat App! We hope it proves invaluable for your development projects. Should you have any questions or suggestions, please feel free to open an issue on GitHub.
 
 Happy chatting and coding! 😄🚀
