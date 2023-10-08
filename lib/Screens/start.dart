@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:trustique/Screens/auth/auth.dart';
 import 'package:trustique/Widgets/usercard.dart';
 import 'package:trustique/api/api.dart';
 import 'package:trustique/models/chat_user.dart';
@@ -90,6 +92,8 @@ class _startState extends State<start> {
                   onPressed: () async {
                     await APIs.auth.signOut();
                     await GoogleSignIn().signOut();
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => authtr()));
                   },
                   icon: const Icon(
                     Icons.logout_outlined,
@@ -99,7 +103,9 @@ class _startState extends State<start> {
               ],
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () {
+                _addChatUserDialog();
+              },
               child: const Icon(Icons.add_circle_outline),
               backgroundColor: Colors.brown[800],
             ),
@@ -155,4 +161,88 @@ class _startState extends State<start> {
       ),
     );
   }
+
+  void _addChatUserDialog() {
+    String email = '';
+
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              contentPadding: const EdgeInsets.only(
+                  left: 24, right: 24, top: 20, bottom: 10),
+
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)),
+
+              //title
+              title: Row(
+                children: const [
+                  Icon(
+                    Icons.person_add,
+                    color: Colors.blue,
+                    size: 28,
+                  ),
+                  Text('  Add User')
+                ],
+              ),
+
+              //content
+              content: TextFormField(
+                maxLines: null,
+                style: TextStyle(color: Colors.white),
+                onChanged: (value) => email = value,
+                decoration: InputDecoration(
+                    hintText: 'Email Id',
+                    prefixIcon: const Icon(Icons.email, color: Colors.blue),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15))),
+              ),
+
+              //actions
+              actions: [
+                //cancel button
+                MaterialButton(
+                    onPressed: () {
+                      //hide alert dialog
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel',
+                        style: TextStyle(color: Colors.blue, fontSize: 16))),
+
+                //add button
+                MaterialButton(
+                    onPressed: () async {
+                      //hide alert dialog
+                      Navigator.pop(context);
+                      if (email.isNotEmpty) {
+                        await APIs.addChatUser(email).then((value) {
+                          if (!value) {
+                            ScaffoldMessenger.of(context)
+                              ..hideCurrentSnackBar()
+                              ..showSnackBar(snackBar1);
+                          }
+                        });
+                      }
+                    },
+                    child: const Text(
+                      'Add',
+                      style: TextStyle(color: Colors.blue, fontSize: 16),
+                    ))
+              ],
+            ));
+  }
 }
+
+final snackBar1 = SnackBar(
+  /// need to set following properties for best effect of awesome_snackbar_content
+  elevation: 0,
+  behavior: SnackBarBehavior.floating,
+  backgroundColor: Colors.transparent,
+  content: AwesomeSnackbarContent(
+    title: 'User not found!',
+    message: 'The user does not exist!',
+
+    /// change contentType to ContentType.success, ContentType.warning or ContentType.help for variants
+    contentType: ContentType.failure,
+  ),
+);

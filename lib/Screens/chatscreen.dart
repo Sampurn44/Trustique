@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:trustique/Widgets/messagecard.dart';
 import 'package:trustique/main.dart';
 import 'package:trustique/models/chat_user.dart';
@@ -26,7 +26,7 @@ class _chatscreenState extends State<ChatScreen> {
   List<Message> _list = [];
 
   final _textController = TextEditingController();
-  bool _ishowingemojis = false;
+  bool _isUploading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -101,6 +101,12 @@ class _chatscreenState extends State<ChatScreen> {
                   }
                 }),
           ),
+          if (_isUploading)
+            const Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                    child: CircularProgressIndicator(strokeWidth: 2))),
           _chatInput(),
         ]),
       ),
@@ -187,7 +193,21 @@ class _chatscreenState extends State<ChatScreen> {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final ImagePicker picker = ImagePicker();
+
+                        // Picking multiple images
+                        final List<XFile> images =
+                            await picker.pickMultiImage(imageQuality: 70);
+
+                        // uploading & sending image one by one
+                        for (var i in images) {
+                          log('Image Path: ${i.path}');
+                          setState(() => _isUploading = true);
+                          await APIs.sendChatImage(widget.user, File(i.path));
+                          setState(() => _isUploading = false);
+                        }
+                      },
                       icon: Icon(
                         Icons.image,
                       )),
