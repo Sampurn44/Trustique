@@ -1,4 +1,4 @@
-# Trustique - Flutter Chat App
+# Varta - Flutter Chat App
 
 ![Trustique Logo](https://github.com/Sampurn44/trustique/blob/master/images/trust.png)
 
